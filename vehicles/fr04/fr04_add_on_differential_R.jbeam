@@ -1,0 +1,134 @@
+{
+    "fr04_add_on_Open_differential_R": {
+        "information":{
+            "authors":"Elden",
+            "name":"Race Open Rear Differential",
+            "value":351,
+        },
+        "slotType" : "fr04_differential_R",
+        "slots": [
+            ["type", "default", "description"],
+            ["fr04_add_on_finaldrive_R","fr04_finaldrive_R_race", "Rear Final Drive"],
+            ["fr04_halfshafts_R","fr04_halfshafts_R", "Rear Halfshafts",]
+        ],
+        "powertrain" : [
+            ["type", "name", "inputName", "inputIndex"],
+            ["differential", "differential_R", "gearbox", 1, {"diffType":"open", "uiName":"Rear Differential","defaultVirtualInertia":0.25}],
+        ],
+        "differential_R": {
+            "friction": 4.13,
+            "dynamicFriction": 0.00195,
+            "torqueLossCoef": 0.030,
+            "gearRatio":3.1 ,
+        },
+        "nodes": [
+             ["id", "posX", "posY", "posZ"],
+             //--diff weight--
+             {"selfCollision":false},
+             {"collision":false},
+             {"nodeMaterial":"|NM_METAL"},
+             {"frictionCoef":0.5},
+             {"group":"fr04_differential_R"},
+             {"nodeWeight":5},
+             ["rdiff", 0.00, 1.55, 0.26],
+             {"group":""},
+        ],
+        "beams": [
+              ["id1:", "id2:"],
+              //differential node
+              {"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+              {"beamSpring":1101000,"beamDamp":60},
+              {"beamDeform":35000,"beamStrength":"FLT_MAX"},
+              {"optional":true},
+              {"deformGroup":"differential_R", "deformationTriggerRatio":0.001}
+              ["rdiff", "rx1r"],
+              ["rdiff", "rx1l"],
+              ["rdiff", "rx2r"],
+              ["rdiff", "rx2l"],
+              ["rdiff", "rx3r"],
+              ["rdiff", "rx3l"],
+              ["rdiff", "rx4r"],
+              ["rdiff", "rx4l"],
+              {"deformGroup":""}
+              {"optional":false},
+        ],
+    },
+"fr04_add_on_LSD_differential_R": {
+    "information":{
+        "authors":"Elden",
+        "name":"Race Limited Slip Rear Differential",
+        "value":350,
+    },
+    "slotType" : "fr04_differential_R",
+    "slots": [
+        ["type", "default", "description"],
+        ["fr04_add_on_finaldrive_R","fr04_finaldrive_R_race", "Rear Final Drive"],
+        ["fr04_halfshafts_R","fr04_halfshafts_R", "Rear Halfshafts"],
+    ],
+    "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+        ["$lsdpreload_R", "range", "N/m", "Differentials", 50, 0, 500, "Pre-load Torque", "Initial locking torque between left and right wheels", {"subCategory":"Rear"}]
+        ["$lsdlockcoef_R", "range", "", "Differentials", 0.2, 0, 0.5, "Power Lock Rate", "Additional locking torque proportional to engine torque", {"minDis":0, "maxDis":100, "subCategory":"Rear"}],
+        ["$lsdlockcoefrev_R", "range", "", "Differentials", 0.05, 0, 0.5, "Coast Lock Rate", "Additional locking torque proportional to engine braking", {"minDis":0, "maxDis":100, "subCategory":"Rear"}],
+    ],
+    "powertrain" : [
+        ["type", "name", "inputName", "inputIndex"],
+        ["differential", "differential_R", "gearbox", 1, {"deformGroups":["differential_R"], "diffType":"lsd", "lsdPreload":"$lsdpreload_R", "lsdLockCoef":"$lsdlockcoef_R", "lsdRevLockCoef":"$lsdlockcoefrev_R", "friction":6, "uiName":"Rear Differential","defaultVirtualInertia":0.25}],
+    ],
+    "differential_R": {
+        "friction": 3.13,
+        "dynamicFriction": 0.00148,
+        "torqueLossCoef": 0.03,
+        "gearRatio":3.1,
+    },
+    "nodes": [
+         ["id", "posX", "posY", "posZ"],
+         //--diff weight--
+         {"selfCollision":false},
+         {"collision":false},
+         {"nodeMaterial":"|NM_METAL"},
+         {"frictionCoef":0.5},
+         {"group":"fr04_differential_R"},
+         {"nodeWeight":5},
+         ["rdiff", 0.00, 1.55, 0.26],
+         {"group":""},
+    ],
+    "beams": [
+          ["id1:", "id2:"],
+          //differential node
+          {"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+          {"beamSpring":1101000,"beamDamp":60},
+          {"beamDeform":35000,"beamStrength":"FLT_MAX"},
+          {"optional":true},
+          {"deformGroup":"differential_R", "deformationTriggerRatio":0.001}
+          ["rdiff", "rx1r"],
+          ["rdiff", "rx1l"],
+          ["rdiff", "rx2r"],
+          ["rdiff", "rx2l"],
+          ["rdiff", "rx3r"],
+          ["rdiff", "rx3l"],
+          ["rdiff", "rx4r"],
+          ["rdiff", "rx4l"],
+          {"deformGroup":""}
+          {"optional":false},
+    ],
+},
+"fr04_finaldrive_R_race": {
+    "information":{
+        "authors":"Elden",
+        "name":"Race Adjustable Rear Final Drive",
+        "value":750,
+    },
+
+    "slotType" : "fr04_add_on_finaldrive_R",
+
+    "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+        ["$finaldrive_R", "range", ":1", "Differentials", 3.1, 1.0, 10.0, "Final Drive Gear Ratio", "Torque multiplication ratio", {"subCategory":"Rear", "stepDis":0.01}],
+    ],
+
+    "differential_R" : {
+        "gearRatio":"$finaldrive_R",
+    },
+},
+}

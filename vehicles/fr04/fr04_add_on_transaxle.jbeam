@@ -1,0 +1,519 @@
+{
+"fr04_add_on_MT_transaxle": {
+    "information":{
+        "authors":"Elden",
+        "name":"6-Speed Manual Transaxle",
+        "value":6000,
+    },
+    "slotType" : "fr04_transaxle",
+    "slots": [
+        ["type", "default", "description"],
+        ["fr04_flywheel","fr04_flywheel","Flywheel", {"coreSlot":true}],
+        ["fr04_gearset","fr04_gearset_standard","Gear Set", {"coreSlot":true}],
+        ["fr04_differential_R","fr04_differential_R", "Rear Differential"],
+        ["fr04_suspension_R","fr04_suspension_R", "Rear Suspension"],
+        ["fr04_wing_R","fr04_wing_R", "Rear Wing"],
+        ["fr04_crashbox","fr04_crashbox", "Crashbox"],
+    ],
+     "powertrain": [
+        ["type", "name", "inputName", "inputIndex"],
+        ["frictionClutch", "clutch", "mainEngine", 1],
+        ["manualGearbox", "gearbox", "clutch", 1],
+    ],
+    "gearbox": {
+        "uiName":"Gearbox",
+        "gearRatios":[-3.0, 0, 2.642, 1.944, 1.555, 1.285, 1.100, 0.962],
+        "friction": 1.21,
+        "dynamicFriction": 0.00122,
+        "torqueLossCoef": 0.0155,
+        "gearboxNode:":["rx2r"],
+
+        "gearWhineCoefsInput":  [0.60, 0.00, 0.12, 0.12, 0.12, 0.12, 0.12, 0.12, 0.12, 0.12],
+        "gearWhineCoefsOutput": [0.00, 0.00, 0.24, 0.24, 0.24, 0.24, 0.24, 0.24, 0.24, 0.24],
+        "gearWhineInputEvent": "event:>Vehicle>Transmission>helical_01>twine_in",
+        "gearWhineOutputEvent": "event:>Vehicle>Transmission>helical_01>twine_out",
+
+        //"forwardInputPitchCoef":1
+        //"forwardOutputPitchCoef":1
+        //"reverseInputPitchCoef":0.7
+        //"reverseOutputPitchCoef":0.7
+
+        //"gearWhineInputPitchCoefSmoothing":50
+        //"gearWhineOutputPitchCoefSmoothing":50
+        //"gearWhineInputVolumeCoefSmoothing":10
+        //"gearWhineOutputVolumeCoefSmoothing":10
+
+        //"gearWhineFixedCoefInput": 0.5
+        //"gearWhineFixedCoefOutput": 0.8
+
+    },
+    "clutch": {
+        "clutchFreePlay":0.75,
+        "lockSpringCoef":0.3,
+        "additionalEngineInertia":0.05,
+        "clutchMass":3.50,
+    },
+    "vehicleController": {
+        "calculateOptimalLoadShiftPoints": true,
+        "shiftDownRPMOffsetCoef":1.17,
+        //"aggressionSmoothingDown":0.05
+        "aggressionHoldOffThrottleDelay":3,
+        //"lowShiftDownRPM":[0,0,0,1600,1900,1800,1600,1500],
+        //"lowShiftUpRPM":[0,0,3500,3300,3150,3000,2900],
+        "lowShiftDownRPM":[0,0,0,2000,2600,2600,2600,2600],
+        "lowShiftUpRPM":[0,0,4200,4200,4050,3850,3700],
+        //"wheelSlipUpThreshold":100,
+        "clutchLaunchStartRPM":3000,
+        "clutchLaunchTargetRPM":3000,
+    },
+    "flexbodies": [
+         ["mesh", "[group]:", "nonFlexMaterials"],
+         ["fr04_transaxle", ["fr04_transaxle"]],
+    ],
+    "nodes": [
+         ["id", "posX", "posY", "posZ"],
+         {"selfCollision":true},
+         {"collision":true},
+         //transaxle
+         {"frictionCoef":0.5},
+         {"nodeMaterial":"|NM_METAL"},
+         {"group":["fr04_transaxle"]},
+         //IRL total weight ~40kg
+         {"group":["fr04_transaxle","fr04_lowermounts_R"]},
+         {"nodeWeight":5.5},
+         ["rx1r",-0.169, 1.255, 0.191],
+         ["rx1l", 0.169, 1.255, 0.191],
+         ["rx2r",-0.104, 1.829, 0.165, {"group":["fr04_transaxle","fr04_wingmounts_R","fr04_lowermounts_R"]}],
+         ["rx2l", 0.104, 1.829, 0.165, {"group":["fr04_transaxle","fr04_wingmounts_R","fr04_lowermounts_R"]}],
+
+         {"group":["fr04_transaxle","fr04_uppermounts_R"]},
+         ["rx3r",-0.162, 1.321, 0.348],
+         ["rx3l", 0.162, 1.321, 0.348],
+         ["rx4r",-0.109, 1.831, 0.315, {"group":["fr04_transaxle","fr04_wingmounts_R","fr04_uppermounts_R"]}],
+         ["rx4l", 0.109, 1.831, 0.315, {"group":["fr04_transaxle","fr04_wingmounts_R","fr04_uppermounts_R"]}],
+         
+         {"nodeWeight":6.0},
+         {"group":""},
+         ["rs1", 0.00, 1.53, 0.58, {"selfCollision":false,"collision":false}],
+         {"group":""},
+    ],
+    "beams": [
+          ["id1:", "id2:"],
+          //transaxle
+          {"deformLimitExpansion":1.2},
+          {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+          {"beamSpring":4001000,"beamDamp":250},
+          {"beamDeform":1120000,"beamStrength":"FLT_MAX"},
+          ["rx1r","rx2r"],
+          ["rx1l","rx2l"],
+          ["rx3r","rx4r"],
+          ["rx3l","rx4l"],
+
+          ["rx1r","rx1l"],
+          ["rx2r","rx2l"],
+          ["rx3r","rx3l"],
+          ["rx4r","rx4l"],
+          
+          ["rx1r","rx3r"],
+          ["rx1l","rx3l"],
+          ["rx2r","rx4r"],
+          ["rx2l","rx4l"],
+          
+          {"beamSpring":7001000,"beamDamp":200},
+          ["rs1","rx4r"],
+          ["rs1","rx3r"],
+          ["rs1","rx4l"],
+          ["rs1","rx3l"],
+          
+          {"beamSpring":4001000,"beamDamp":250},
+          ["rx1r","rx4r"],
+          ["rx1l","rx4l"],
+          ["rx3r","rx2r"],
+          ["rx3l","rx2l"],
+          
+          ["rx1r","rx4l"],
+          ["rx1l","rx4r"],
+          ["rx3r","rx2l"],
+          ["rx3l","rx2r"],
+          
+          ["rx1r","rx2l"],
+          ["rx3r","rx4l"],
+          ["rx4r","rx3l"],
+          
+          ["rx1r","rx3l"],
+          ["rx1l","rx3r"],
+          ["rx2r","rx4l"],
+          ["rx2l","rx4r"],
+          
+          {"beamSpring":7001000,"beamDamp":200},
+          ["rs1","rx2r"],
+          ["rs1","rx1r"],
+          ["rs1","rx2l"],
+          ["rs1","rx1l"],
+
+          //attach to engine
+          {"deformLimitExpansion":""},
+          {"beamSpring":4001000,"beamDamp":200},
+          {"beamDeform":1120000,"beamStrength":"FLT_MAX"},
+          ["rx1r","e4r"],
+          ["rx1r","e4l"],
+          ["rx1l","e4r"],
+          ["rx1l","e4l"],
+          ["rx1r","e2r"],
+          ["rx1r","e2l"],
+          ["rx1l","e2r"],
+          ["rx1l","e2l"],
+          
+          ["rx3r","e4r"],
+          ["rx3r","e4l"],
+          ["rx3l","e4r"],
+          ["rx3l","e4l"],
+          ["rx3r","e2r"],
+          ["rx3r","e2l"],
+          ["rx3l","e2r"],
+          ["rx3l","e2l"],
+          
+          {"beamSpring":2201000,"beamDamp":150},
+          ["rx4r","e4r"],
+          ["rx4r","e4l"],
+          ["rx4l","e4r"],
+          ["rx4l","e4l"],
+          ["rx4r","e2r"],
+          ["rx4r","e2l"],
+          ["rx4l","e2r"],
+          ["rx4l","e2l"],
+          
+          ["rx2r","e4r"],
+          ["rx2r","e4l"],
+          ["rx2l","e4r"],
+          ["rx2l","e4l"],
+          ["rx2r","e2r"],
+          ["rx2r","e2l"],
+          ["rx2l","e2r"],
+          ["rx2l","e2l"],
+
+          {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+    ],
+    "triangles": [
+            ["id1:","id2:","id3:"],
+            {"triangleType":"NORMALTYPE"},
+            //transaxle shape
+            {"dragCoef":10},
+            {"group":"fr04_transaxle"},
+            {"groundModel":"metal"},
+            ["rx4r", "rx4l", "rx2r"],
+            ["rx2r", "rx4l", "rx2l"],
+            ["rx3r", "rx3l", "rx4r"],
+            ["rx4r", "rx3l", "rx4l"],
+            ["rx3l", "rx3r", "rx1r"],
+            ["rx3l", "rx1r", "rx1l"],
+            ["rx2r", "rx2l", "rx1l"],
+            ["rx2r", "rx1l", "rx1r"],
+            ["rx4l", "rx3l", "rx1l"],
+            ["rx4l", "rx1l", "rx2l"],
+            ["rx3r", "rx4r", "rx1r"],
+            ["rx1r", "rx4r", "rx2r"],
+
+            //to engine
+            {"optional":true}
+            {"dragCoef":5},
+            {"groundModel":"metal"},
+            ["e4r","e4l","rx3l"],
+            ["e4r","rx3l","rx3r"],
+            ["e2l","e2r","rx1l"],
+            ["e2r","rx1r","rx1l"],
+            ["e4r","rx3r","rx1r"],
+            ["e4r","rx1r","e2r"],
+            ["e4l","rx1l","rx3l"],
+            ["e4l","e2l","rx1l"],
+
+            {"group":""},
+            {"optional":false}
+            {"triangleType":"NORMALTYPE"},
+    ],
+},
+"fr04_add_on_DCT_transaxle": {
+    "information":{
+        "authors":"Elden",
+        "name":"6-Speed Dual Clutch Transaxle",
+        "value":6000,
+    },
+    "slotType" : "fr04_transaxle",
+    "slots": [
+        ["type", "default", "description"],
+        ["fr04_flywheel","fr04_flywheel","Flywheel", {"coreSlot":true}],
+        ["fr04_gearset","fr04_gearset_standard","Gear Set", {"coreSlot":true}],
+        ["fr04_differential_R","fr04_differential_R", "Rear Differential"],
+        ["fr04_suspension_R","fr04_suspension_R", "Rear Suspension"],
+        ["fr04_wing_R","fr04_wing_R", "Rear Wing"],
+        ["fr04_crashbox","fr04_crashbox", "Crashbox"],
+    ],
+     "powertrain": [
+        ["type", "name", "inputName", "inputIndex"],
+        ["dctGearbox", "gearbox", "mainEngine", 1],
+    ],
+    "gearbox": {
+        "uiName":"Gearbox",
+        "gearRatios":[-3.0, 0, 2.642, 1.944, 1.555, 1.285, 1.100, 0.962],
+        "parkLockTorque":2000,
+        "friction":1.34,
+        "dynamicFriction":0.00134,
+        "torqueLossCoef": 0.0155,
+        "gearboxNode:":["rx2r"],
+        "additionalEngineInertia":0.06,
+
+        "gearWhineCoefsInput":  [0.60, 0.00, 0.13, 0.13, 0.13, 0.13, 0.13, 0.13, 0.13, 0.13],
+        "gearWhineCoefsOutput": [0.00, 0.00, 0.27, 0.27, 0.27, 0.27, 0.27, 0.27, 0.27, 0.27],
+        "gearWhineInputEvent": "event:>Vehicle>Transmission>helical_01>twine_in_tuned",
+        "gearWhineOutputEvent": "event:>Vehicle>Transmission>helical_01>twine_out_tuned",
+
+        //"forwardInputPitchCoef":1
+        //"forwardOutputPitchCoef":1
+        //"reverseInputPitchCoef":0.7
+        //"reverseOutputPitchCoef":0.7
+
+        //"gearWhineInputPitchCoefSmoothing":50
+        //"gearWhineOutputPitchCoefSmoothing":50
+        //"gearWhineInputVolumeCoefSmoothing":10
+        //"gearWhineOutputVolumeCoefSmoothing":10
+
+        //"gearWhineFixedCoefInput": 0.5
+        //"gearWhineFixedCoefOutput": 0.8
+
+    },
+    "vehicleController": {
+        "calculateOptimalLoadShiftPoints": true,
+        "automaticModes":"PRNDSM",
+        "shiftDownRPMOffsetCoef":1.2,
+        "lowShiftDownRPM":[0,0,0,1400,1500,1400,1400,1400],
+        "lowShiftUpRPM":[0,0,3300,2900,2600,2600,2600],
+    },
+    "flexbodies": [
+         ["mesh", "[group]:", "nonFlexMaterials"],
+         ["fr04_transaxle", ["fr04_transaxle"]],
+    ],
+    "nodes": [
+         ["id", "posX", "posY", "posZ"],
+         {"selfCollision":true},
+         {"collision":true},
+         //transaxle
+         {"frictionCoef":0.5},
+         {"nodeMaterial":"|NM_METAL"},
+         {"group":["fr04_transaxle"]},
+         //IRL total weight ~40kg
+         {"group":["fr04_transaxle","fr04_lowermounts_R"]},
+         {"nodeWeight":5.5},
+         ["rx1r",-0.169, 1.255, 0.191],
+         ["rx1l", 0.169, 1.255, 0.191],
+         ["rx2r",-0.104, 1.829, 0.165, {"group":["fr04_transaxle","fr04_wingmounts_R","fr04_lowermounts_R"]}],
+         ["rx2l", 0.104, 1.829, 0.165, {"group":["fr04_transaxle","fr04_wingmounts_R","fr04_lowermounts_R"]}],
+
+         {"group":["fr04_transaxle","fr04_uppermounts_R"]},
+         ["rx3r",-0.162, 1.321, 0.348],
+         ["rx3l", 0.162, 1.321, 0.348],
+         ["rx4r",-0.109, 1.831, 0.315, {"group":["fr04_transaxle","fr04_wingmounts_R","fr04_uppermounts_R"]}],
+         ["rx4l", 0.109, 1.831, 0.315, {"group":["fr04_transaxle","fr04_wingmounts_R","fr04_uppermounts_R"]}],
+         
+         {"nodeWeight":6.0},
+         {"group":""},
+         ["rs1", 0.00, 1.53, 0.58, {"selfCollision":false,"collision":false}],
+         {"group":""},
+    ],
+    "beams": [
+          ["id1:", "id2:"],
+          //transaxle
+          {"deformLimitExpansion":1.2},
+          {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+          {"beamSpring":4001000,"beamDamp":250},
+          {"beamDeform":1120000,"beamStrength":"FLT_MAX"},
+          ["rx1r","rx2r"],
+          ["rx1l","rx2l"],
+          ["rx3r","rx4r"],
+          ["rx3l","rx4l"],
+
+          ["rx1r","rx1l"],
+          ["rx2r","rx2l"],
+          ["rx3r","rx3l"],
+          ["rx4r","rx4l"],
+          
+          ["rx1r","rx3r"],
+          ["rx1l","rx3l"],
+          ["rx2r","rx4r"],
+          ["rx2l","rx4l"],
+          
+          {"beamSpring":7001000,"beamDamp":200},
+          ["rs1","rx4r"],
+          ["rs1","rx3r"],
+          ["rs1","rx4l"],
+          ["rs1","rx3l"],
+          
+          {"beamSpring":4001000,"beamDamp":250},
+          ["rx1r","rx4r"],
+          ["rx1l","rx4l"],
+          ["rx3r","rx2r"],
+          ["rx3l","rx2l"],
+          
+          ["rx1r","rx4l"],
+          ["rx1l","rx4r"],
+          ["rx3r","rx2l"],
+          ["rx3l","rx2r"],
+          
+          ["rx1r","rx2l"],
+          ["rx3r","rx4l"],
+          ["rx4r","rx3l"],
+          
+          ["rx1r","rx3l"],
+          ["rx1l","rx3r"],
+          ["rx2r","rx4l"],
+          ["rx2l","rx4r"],
+          
+          {"beamSpring":7001000,"beamDamp":200},
+          ["rs1","rx2r"],
+          ["rs1","rx1r"],
+          ["rs1","rx2l"],
+          ["rs1","rx1l"],
+
+          //attach to engine
+          {"deformLimitExpansion":""},
+          {"beamSpring":4001000,"beamDamp":200},
+          {"beamDeform":1120000,"beamStrength":"FLT_MAX"},
+          ["rx1r","e4r"],
+          ["rx1r","e4l"],
+          ["rx1l","e4r"],
+          ["rx1l","e4l"],
+          ["rx1r","e2r"],
+          ["rx1r","e2l"],
+          ["rx1l","e2r"],
+          ["rx1l","e2l"],
+          
+          ["rx3r","e4r"],
+          ["rx3r","e4l"],
+          ["rx3l","e4r"],
+          ["rx3l","e4l"],
+          ["rx3r","e2r"],
+          ["rx3r","e2l"],
+          ["rx3l","e2r"],
+          ["rx3l","e2l"],
+          
+          {"beamSpring":2201000,"beamDamp":150},
+          ["rx4r","e4r"],
+          ["rx4r","e4l"],
+          ["rx4l","e4r"],
+          ["rx4l","e4l"],
+          ["rx4r","e2r"],
+          ["rx4r","e2l"],
+          ["rx4l","e2r"],
+          ["rx4l","e2l"],
+          
+          ["rx2r","e4r"],
+          ["rx2r","e4l"],
+          ["rx2l","e4r"],
+          ["rx2l","e4l"],
+          ["rx2r","e2r"],
+          ["rx2r","e2l"],
+          ["rx2l","e2r"],
+          ["rx2l","e2l"],
+
+          {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+    ],
+    "triangles": [
+            ["id1:","id2:","id3:"],
+            {"triangleType":"NORMALTYPE"},
+            //transaxle shape
+            {"dragCoef":10},
+            {"group":"fr04_transaxle"},
+            {"groundModel":"metal"},
+            ["rx4r", "rx4l", "rx2r"],
+            ["rx2r", "rx4l", "rx2l"],
+            ["rx3r", "rx3l", "rx4r"],
+            ["rx4r", "rx3l", "rx4l"],
+            ["rx3l", "rx3r", "rx1r"],
+            ["rx3l", "rx1r", "rx1l"],
+            ["rx2r", "rx2l", "rx1l"],
+            ["rx2r", "rx1l", "rx1r"],
+            ["rx4l", "rx3l", "rx1l"],
+            ["rx4l", "rx1l", "rx2l"],
+            ["rx3r", "rx4r", "rx1r"],
+            ["rx1r", "rx4r", "rx2r"],
+
+            //to engine
+            {"optional":true}
+            {"dragCoef":5},
+            {"groundModel":"metal"},
+            ["e4r","e4l","rx3l"],
+            ["e4r","rx3l","rx3r"],
+            ["e2l","e2r","rx1l"],
+            ["e2r","rx1r","rx1l"],
+            ["e4r","rx3r","rx1r"],
+            ["e4r","rx1r","e2r"],
+            ["e4l","rx1l","rx3l"],
+            ["e4l","e2l","rx1l"],
+
+            {"group":""},
+            {"optional":false}
+            {"triangleType":"NORMALTYPE"},
+    ],
+},
+"fr04_flywheel": {
+    "information":{
+        "authors":"EldenG",
+        "name":"Flywheel",
+        "value":150,
+    },
+    "slotType" : "fr04_flywheel",
+    "clutch": {
+        "uiName":"Clutch",
+        "clutchFreePlay":0.75,
+        "lockSpringCoef":0.3,
+        "additionalEngineInertia":0.05,
+        "clutchMass":3.50,
+    },
+},
+"fr04_flywheel_race": {
+    "information":{
+        "authors":"Elden",
+        "name":"Ultra Light Flywheel",
+        "value":400,
+    },
+    "slotType" : "fr04_flywheel",
+    "clutch": {
+        "uiName":"Clutch",
+        "additionalEngineInertia":0.02,
+        "clutchMass":3.0,
+    },
+},
+"fr04_flywheel_light": {
+    "information":{
+        "authors":"Elden",
+        "name":"Lightened Flywheel",
+        "value":200,
+    },
+    "slotType" : "fr04_flywheel",
+    "clutch": {
+        "uiName":"Clutch",
+        "additionalEngineInertia":0.035,
+        "clutchMass":3.25,
+    },
+},
+  "fr04_gearset_variable": {
+    "information":{
+        "authors":"Elden",
+        "name":"Variable Gear Ratios",
+        "value":100,
+    },
+    "slotType" : "fr04_gearset",
+    "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+        ["$gear_R", "range", ":1", "Transmission", 3.00, 0.5, 5, "Reverse Gear Ratio", "Torque multiplication ratio", {"stepDis":0.01}],
+        ["$gear_1", "range", ":1", "Transmission", 2.642, 0.5, 5, "1st Gear Ratio",     "Torque multiplication ratio", {"stepDis":0.01}],
+        ["$gear_2", "range", ":1", "Transmission", 1.944, 0.5, 5, "2nd Gear Ratio",     "Torque multiplication ratio", {"stepDis":0.01}],
+        ["$gear_3", "range", ":1", "Transmission", 1.555, 0.5, 5, "3rd Gear Ratio",     "Torque multiplication ratio", {"stepDis":0.01}],
+        ["$gear_4", "range", ":1", "Transmission", 1.285, 0.5, 5, "4th Gear Ratio",     "Torque multiplication ratio", {"stepDis":0.01}],
+        ["$gear_5", "range", ":1", "Transmission", 1.100, 0.5, 5, "5th Gear Ratio",     "Torque multiplication ratio", {"stepDis":0.01}],
+        ["$gear_6", "range", ":1", "Transmission", 0.962, 0.5, 5, "6th Gear Ratio",     "Torque multiplication ratio", {"stepDis":0.01}],
+    ],
+    "gearbox": {
+        "gearRatios":["$=-$gear_R", 0, "$gear_1", "$gear_2", "$gear_3", "$gear_4", "$gear_5", "$gear_6"],
+    }
+}
+}

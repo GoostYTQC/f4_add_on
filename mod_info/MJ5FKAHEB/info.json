@@ -1,0 +1,87 @@
+{
+    "attachments": [
+        {
+            "data_filename": "1043062.jpg",
+            "original_filename": "automotive-turbocharger-icon-isolated-on-white-background-vehicle-performance-turbo-free-vector.jpg",
+            "thumb_filename": "thumbs\/1043062.jpg"
+        }
+    ],
+    "resource_id": 27577,
+    "current_version_id": 48232,
+    "download_count": 0,
+    "resource_version_id": 48232,
+    "version_string": "1.0",
+    "last_update": 1689531543,
+    "rating_avg": 0,
+    "rating_count": 0,
+    "rating_sum": 0,
+    "resource_category_id": 7,
+    "resource_date": 1689531543,
+    "review_count": 0,
+    "tag_line": "More engine and upgrade",
+    "update_count": 0,
+    "path": "MJ5FKAHEB\/48232\/",
+    "filename": "f4_lucasbe_add_on_pack.zip",
+    "title": "Add-on for Carbonworks F4",
+    "user_id": 449554,
+    "username": "GoostYT_QC",
+    "tagid": "MJ5FKAHEB",
+    "message": "[B]Here is my Add on packs for the [URL='https:\/\/www.beamng.com\/resources\/carbonworks-f4.27561\/']Carbonworks F4[\/URL]\n2 new engine[\/B]\n - 1.2L i3 turbo or NA making 150hp\n - 2.5L i5 turbo or NA making 350hp\n\nTurbo kit for the stock engine\nrace block for ALL the engine\nand race ecu for ALL the engine whit 2-step\n\nLSD differential\nadjustable differential ratio and transmission gear ratio",
+    "category_title": "",
+    "prefix_title": "Alpha",
+    "via": "packed by repo on Sun, 16 Jul 2023 22:01:01 GMT",
+    "hashes": [
+        [
+            "vehicles\/fr04\/i3_turbo.jpg",
+            "2457d2b0840c30c0"
+        ],
+        [
+            "vehicles\/fr04\/fr04_add_on_exhaust.jbeam",
+            "9ca05e3991b16d8d"
+        ],
+        [
+            "vehicles\/fr04\/info_i4_turbo.json",
+            "2c63e3906448d80a"
+        ],
+        [
+            "vehicles\/fr04\/i4_turbo.jpg",
+            "17da8e17053bb3ab"
+        ],
+        [
+            "vehicles\/fr04\/i3_turbo.pc",
+            "e1a03069e6c18dba"
+        ],
+        [
+            "vehicles\/fr04\/i5_turbo.jpg",
+            "bfc01636d2ad768f"
+        ],
+        [
+            "vehicles\/fr04\/info_i3_turbo.json",
+            "890acddb10f4c3d4"
+        ],
+        [
+            "vehicles\/fr04\/fr04_add_on_engine.jbeam",
+            "33e65412400f1373"
+        ],
+        [
+            "vehicles\/fr04\/i5_turbo.pc",
+            "321a6b40e0474b30"
+        ],
+        [
+            "vehicles\/fr04\/fr04_add_on_transaxle.jbeam",
+            "929ffc602eb4bfda"
+        ],
+        [
+            "vehicles\/fr04\/fr04_add_on_differential_R.jbeam",
+            "6fca4002de7828fe"
+        ],
+        [
+            "vehicles\/fr04\/info_i5_turbo.json",
+            "68a449250506f9b0"
+        ],
+        [
+            "vehicles\/fr04\/i4_turbo.pc",
+            "eeb536431ffe9018"
+        ]
+    ]
+}

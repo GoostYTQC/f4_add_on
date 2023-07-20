@@ -1,0 +1,69 @@
+{
+"fr04_add_on_race_exhaust":{
+    "information":{
+        "authors":"Elden",
+        "name":"Race Exhaust",
+        "value":100,
+    },
+    "slotType" : "fr04_exhaust",
+    "flexbodies":[
+        ["mesh", "[group]:","nonFlexMaterials"],
+        ["fr04_exhaust", ["fr04_exhaust","fr04_engine"]],
+    ],
+    "nodes":[
+         ["id", "posX", "posY", "posZ"],
+         {"selfCollision":false},
+         {"collision":false},
+         {"frictionCoef":0.5},
+         {"nodeMaterial":"|NM_METAL"},
+
+         {"nodeWeight":0.4},
+         {"group":"fr04_exhaust"},
+         ["ex1", -0.23, 1.23, 0.24],
+         ["ex2",-0.282, 1.318, 0.29, {"afterFireAudioCoef":1.5,"afterFireVisualCoef":0.9, "afterFireVolumeCoef":1.5, "afterFireMufflingCoef": 1.0, "exhaustAudioMufflingCoef": 0.80, "exhaustAudioGainChange":7}],
+         {"group":"none"},
+        ],
+    "beams":[
+          ["id1:", "id2:"],
+          {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+          {"beamSpring":101000,"beamDamp":90},
+          {"beamDeform":90000,"beamStrength":"FLT_MAX"},
+
+          ["ex1", "ex2", {"isExhaust":true}],
+
+          //attach
+          {"beamSpring":301000,"beamDamp":50},
+          {"beamDeform":75000,"beamStrength":"FLT_MAX"},
+          //to engine
+          ["ex1", "e1r"],
+          ["ex1", "e1l"],
+          ["ex1", "e2r", {"isExhaust":true}],
+          ["ex1", "e2l"],
+          ["ex1", "e3r"],
+          ["ex1", "e3l"],
+          ["ex1", "e4r"],
+          ["ex1", "e4l"],
+          
+          ["ex2", "e1r"],
+          ["ex2", "e1l"],
+          ["ex2", "e2r"],
+          ["ex2", "e2l"],
+          ["ex2", "e3r"],
+          ["ex2", "e3l"],
+          ["ex2", "e4r"],
+          ["ex2", "e4l"],
+          
+          {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+
+    "triangles":[
+        ["id1:", "id2:", "id3:"],
+        {"groundModel":"metal"},
+        {"group":"fr04_exhaust"},
+        {"triangleType":"NONCOLLIDABLE"},
+        {"dragCoef":0},
+        
+        {"triangleType":"NORMALTYPE"},
+        ],
+},
+}
