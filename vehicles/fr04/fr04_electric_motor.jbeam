@@ -1,0 +1,341 @@
+{
+"fr04_motor_electric_F": {
+    "information":{
+        "authors":"BeamNG",
+        "name":"Rear Electric Motor",
+        "value":5000,
+    },
+    "slotType" : "fr04_engine",
+    "slots": [
+        ["type", "default", "description"],
+       // ["fr04_differential_electric","vivace_differential_electric", "Rear Differential"],
+        ["fr04_transaxle","fr04_transaxle", "Transaxle"],
+        ["fr04_ecu_motor_electric","vivace_ecu_motor_electric_E", "Engine Management", {"coreSlot":true}],
+    ],
+    "props": [
+        ["func"      , "mesh"              , "idRef:", "idX:", "idY:"            , "baseRotation"        , "rotation"                 , "translation"        , "min", "max", "offset", "multiplier"],
+        ["rpmspin"  , "fr04_pulley1",  "e2r","e2l","e4r",  {"x":0, "y":0, "z":0}, {"x":0, "y":1, "z":0}    , {"x":0, "y":0, "z":0}, -720, 720, 0, -1],
+        ["rpmspin"  , "fr04_pulley2",  "e2r","e2l","e4r",  {"x":0, "y":0, "z":0}, {"x":0, "y":1, "z":0}    , {"x":0, "y":0, "z":0}, -540, 540, 0, -2],
+        ["rpmspin"  , "fr04_pulley3",  "e2r","e2l","e4r",  {"x":0, "y":0, "z":0}, {"x":0, "y":1, "z":0}    , {"x":0, "y":0, "z":0}, -720, 720, 0,  3],
+        ["rpmspin"  , "fr04_pulley4",  "e2r","e2l","e4r",  {"x":0, "y":0, "z":0}, {"x":0, "y":1, "z":0}    , {"x":0, "y":0, "z":0}, -540, 540, 0,  3],
+    ],
+    "powertrain": [
+        ["type", "name", "inputName", "inputIndex"],
+        ["electricMotor", "rearMotor", "dummy", 0],
+    ],
+    "rearMotor":{
+        "torque":[
+            ["rpm", "torque"],
+            [0, 300],
+            [500, 300],
+            [1000, 300],
+            [1500, 300],
+            [2000, 300],
+            [3000, 300],
+            [4000, 300],
+            [5000, 295],
+            [6000, 280],
+            [7000, 250],
+            [8000, 225],
+            [9000, 200],
+            [10000, 170],
+            [11000, 130],
+            [12000, 100],
+            [13000, 80],
+
+        ],
+
+        "maxRPM":12000,
+        "inertia":0.10,
+        "friction":2,
+        "dynamicFriction":0.00025,
+        "electricalEfficiency":0.96,
+        "torqueReactionNodes:":["e1l","e2l","e4r"],
+        "energyStorage": "mainBattery",
+        "electricsThrottleFactorName": "throttleFactorFront",
+        "maximumWantedRegenTorque": 150
+
+        //node beam interface
+        "waterDamage": {"[engineGroup]:":["engine_intake"]},
+        "engineBlock": {"[engineGroup]:":["engine_block"]},
+        "breakTriggerBeam":"engine",
+        "uiName":"Engine",
+
+        "soundConfig": "soundConfigFront",
+    },
+    "soundConfigFront": {
+        "sampleName": "ElectricMotor_02",
+        "mainGain": 15,
+    },
+    "vehicleController": {
+        "shiftLogicName":"electricMotor",
+        "motorNames": ["rearMotor"],
+        "topSpeedLimitReverse": 15,
+        "onePedalRegenCoef": 0.85
+    },
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+        ["fr04_engine", ["fr04_engine"]],
+        {"deformGroup":""},
+   ],
+   "nodes": [
+        ["id", "posX", "posY", "posZ"],
+        {"selfCollision":true},
+        {"collision":true},
+        //engine box
+        {"frictionCoef":0.5},
+        {"nodeMaterial":"|NM_METAL"},
+        {"group":"fr04_engine"},
+        {"engineGroup":"engine_block"},
+        {"nodeWeight":10},
+        {"chemEnergy":500,"burnRate":0.39,"flashPoint":800,"specHeat": 0.2,"selfIgnitionCoef":false,"smokePoint":650,"baseTemp":"thermals","conductionRadius":0.12},
+        ["e1r",-0.30, 0.63, 0.06,{"chemEnergy":2000,"burnRate":0.39,"flashPoint":800,"specHeat": 0.1,"selfIgnitionCoef":false,"smokePoint":650,"baseTemp":"thermals","conductionRadius":0.07}],
+        ["e1l", 0.30, 0.63, 0.06,{"isExhaust":"mainEngine","chemEnergy":2000,"burnRate":0.39,"flashPoint":800,"specHeat": 0.1,"selfIgnitionCoef":false,"smokePoint":650,"baseTemp":"thermals","conductionRadius":0.07}],
+        ["e2r",-0.30, 1.09, 0.08,{"chemEnergy":2000,"burnRate":0.39,"flashPoint":800,"specHeat": 0.1,"selfIgnitionCoef":false,"smokePoint":650,"baseTemp":"thermals","conductionRadius":0.07}],
+        ["e2l", 0.30, 1.09, 0.08,{"chemEnergy":2000,"burnRate":0.39,"flashPoint":800,"specHeat": 0.1,"selfIgnitionCoef":false,"smokePoint":650,"baseTemp":"thermals","conductionRadius":0.07}],
+        {"engineGroup":["engine_block","engine_intake"]},
+        {"selfCollision":true},
+        {"group":["fr04_engine","fr04_airbox"]},
+        ["e3r",-0.13, 0.63, 0.58, {"chemEnergy":1000,"burnRate":0.39,"flashPoint":800,"specHeat": 0.2,"selfIgnitionCoef":false,"smokePoint":650,"baseTemp":"thermals","conductionRadius":0.12}],
+        ["e3l", 0.13, 0.63, 0.58],
+        ["e4r",-0.13, 1.09, 0.58],
+        ["e4l", 0.13, 1.09, 0.58],
+        {"chemEnergy":false,"burnRate":false,"flashPoint":false, "specHeat": false,"selfIgnitionCoef":false,"smokePoint":false,"baseTemp":false,"conductionRadius":false},
+        {"engineGroup":""},
+        {"group":""},
+   ],
+   "beams": [
+         ["id1:", "id2:"],
+         {"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+         {"beamSpring":11200800,"beamDamp":258},
+         {"beamDeform":1120000,"beamStrength":"FLT_MAX"},
+         //engine
+         {"deformLimitExpansion":1.2},
+         {"deformGroup":"mainEngine", "deformationTriggerRatio":0.001}
+         ["e1r","e1l"],
+         ["e2r","e2l"],
+         ["e3r","e3l"],
+         ["e4r","e4l"],
+         ["e1r","e2r"],
+         ["e1l","e2l"],
+         ["e3r","e4r"],
+         ["e3l","e4l"],
+         ["e1r","e3r"],
+         ["e1l","e3l"],
+         ["e2r","e4r"],
+         ["e2l","e4l"],
+         ["e2r","e3r"],
+         ["e2l","e3l"],
+         ["e2r","e3l"],
+         ["e2l","e3r"],
+         ["e1r","e4r"],
+         ["e1l","e4l"],
+         ["e1r","e4l"],
+         ["e1l","e4r"],
+         ["e1r","e2l"],
+         ["e1l","e2r", {"isExhaust":"mainEngine"}],
+         ["e3r","e4l"],
+         ["e3l","e4r"],
+         ["e1r","e3l"],
+         ["e1l","e3r"],
+         ["e2r","e4l"],
+         ["e2l","e4r"],
+         {"deformGroup":""}
+
+         //radhose
+         //TODO
+         /*
+         {"beamSpring":15000,"beamDamp":300},
+         {"beamDeform":1450,"beamStrength":3600},
+         {"deformGroup":"radhose_damage_R","deformationTriggerRatio":0.1},
+         {"optional":true}
+         ["em1l","e3l"],
+         ["em1l","e3r"],
+         ["em1l","e4l"],
+         ["em1l","e4r"],
+         ["em1l", "e1r"],
+         ["em1l", "e1l"],
+         ["em1l", "e2l"],
+         ["em1l", "e2r"],
+
+         ["e1r", "f3r"],
+         ["e3r", "f3r"],
+         ["e1r", "f3l"],
+         ["e1l", "f3l"],
+         ["e1l", "f3r"],
+         ["e1l", "f9l"],
+         ["e1r", "f9r"],
+         ["e3l", "f3l"],
+         */
+         {"optional":false}
+         {"deformGroup":""},
+
+         {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+   ],
+   "triangles": [
+           ["id1:","id2:","id3:"],
+           {"groundModel":"plastic"},
+           {"group":"fr04_engine"},
+           {"dragCoef":0.5},
+           ["e2r", "e1r", "e4r"],
+           ["e1r", "e3r", "e4r"],
+
+           ["e2l", "e4l", "e1l"],
+           ["e1l", "e4l", "e3l"],
+
+           ["e4l", "e2l", "e2r"],
+           ["e2r", "e4r", "e4l"],
+           ["e3l", "e1r", "e1l"],
+           ["e1r", "e3l", "e3r"],
+
+           ["e4r", "e3r", "e3l"],
+           ["e3l", "e4l", "e4r"],
+           {"optional":true},
+           ["e2l", "oilpan", "e2r"],
+           ["e1r", "oilpan", "e1l"],
+           ["e1l", "oilpan", "e2l"],
+           ["e2r", "oilpan", "e1r"],
+
+           //airbox shape
+           ["airb","e3l","e4l"],
+           ["airb","e4l","e4r"],
+           ["airb","e4r","e3r"],
+           ["airb","e3r","e3l"],
+           {"group":""},
+           {"triangleType":"NORMALTYPE"},
+   ],
+},
+"fr04_differential_electric": {
+    "information":{
+        "authors":"BeamNG",
+        "name":" Electric Open Rear Differential",
+        "value":900,
+    },
+    "slotType" : "fr04_differential_electric",
+    "slots": [
+        ["type", "default", "description"],
+        ["fr04_finaldrive_electric","fr04_finaldrive_electric_race", "Rear Final Drive", {"coreSlot":true}],
+        ["fr04_halfshaft_electric","fr04_finaldrive_electric_race", "Rear Half Shafts"],
+    ],
+    "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+        ["$lsdpreload_R", "range", "N/m", "Differentials", 50, 0, 500, "Pre-load Torque", "Initial locking torque between left and right wheels", {"subCategory":"Rear"}]
+        ["$lsdlockcoef_R", "range", "", "Differentials", 0.2, 0, 0.5, "Power Lock Rate", "Additional locking torque proportional to engine torque", {"minDis":0, "maxDis":100, "subCategory":"Rear"}],
+        ["$lsdlockcoefrev_R", "range", "", "Differentials", 0.05, 0, 0.5, "Coast Lock Rate", "Additional locking torque proportional to engine braking", {"minDis":0, "maxDis":100, "subCategory":"Rear"}],
+    ],
+    "powertrain" : [
+        ["type", "name", "inputName", "inputIndex"],
+        ["differential", "differential_R", "shafts", 1, {"deformGroups":["differential_R"], "diffType":"lsd", "lsdPreload":"$lsdpreload_R", "lsdLockCoef":"$lsdlockcoef_R", "lsdRevLockCoef":"$lsdlockcoefrev_R", "friction":6, "uiName":"Rear Differential","defaultVirtualInertia":0.25}],
+    ],
+    "differential_R": {
+        "friction": 3.13,
+        "dynamicFriction": 0.00148,
+        "torqueLossCoef": 0.03,
+    },
+    "torsionReactorF": {
+        "torqueReactionNodes:":["fdiffl","fdiffr","fem6"],
+    },
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+        //--diff weight--
+        {"selfCollision":false},
+        {"collision":false},
+        {"nodeMaterial":"|NM_METAL"},
+        {"frictionCoef":0.5},
+        {"group":"fr04_differential_R"},
+        {"nodeWeight":5},
+        ["rdiff", 0.00, 1.55, 0.26],
+        {"group":""},
+   ],
+   "beams": [
+         ["id1:", "id2:"],
+         //differential node
+         {"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+         {"beamSpring":1101000,"beamDamp":60},
+         {"beamDeform":35000,"beamStrength":"FLT_MAX"},
+         {"optional":true},
+         {"deformGroup":"differential_R", "deformationTriggerRatio":0.001}
+         ["rdiff", "rx1r"],
+         ["rdiff", "rx1l"],
+         ["rdiff", "rx2r"],
+         ["rdiff", "rx2l"],
+         ["rdiff", "rx3r"],
+         ["rdiff", "rx3l"],
+         ["rdiff", "rx4r"],
+         ["rdiff", "rx4l"],
+         {"deformGroup":""}
+         {"optional":false},
+   ],
+},
+"fr04_finaldrive_electric_race": {
+    "information":{
+        "authors":"BeamNG",
+        "name":"Race Adjustable Front Final Drive",
+        "value":150,
+    },
+
+    "slotType" : "fr04_finaldrive_electric",
+
+    "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+        ["$finaldrive_R", "range", ":1", "Differentials", 7.6, 4.0, 10.0, "Final Drive Gear Ratio", "Torque multiplication ratio", {"subCategory":"Rear", "stepDis":0.01}],
+    ],
+
+    "shafts" : {
+        "gearRatio":"$finaldrive_R",
+    },
+},
+"fr04_ecu_motor_electric_E": {
+    "information":{
+        "authors":"BeamNG",
+        "name":"E ECU",
+        "value":1600,
+    },
+    "slotType" : "fr04_ecu_motor_electric",
+    "slots": [
+        ["type", "default", "description"],
+        ["fr04_engine_ecu_electric_E_speedlimit","fr04_engine_ecu_electric_E_speedlimit_160", "Speed Limiter", {"coreSlot":true}],
+    ],
+},
+"fr04_halfshaft_electric": {
+    "information":{
+        "authors":"BeamNG",
+        "name":"Rear Half Shafts",
+        "value":200,
+    },
+    "slotType" : "fr04_halfshaft_electric",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+        {"deformGroup":["wheelaxleRR","wheelaxleRL"], "deformMaterialBase":"fr04_engine", "deformMaterialDamaged":"invis"},
+        ["fr04_halfshafts", ["fr04_differential_R","fr04_hub_R","fr04_lowermounts_R","fr04_uppermounts_R","wheelhub_RR","wheelhub_RL"]],
+        {"deformGroup":""},
+   ],
+   "beams": [
+         ["id1:", "id2:"],
+         //halfshafts
+         {"beamType":"|BOUNDED", "beamLongBound":0.05, "beamShortBound":0.05,"boundZone":0.1},
+         {"beamSpring":0,"beamDamp":0,"beamDeform":3500,"beamStrength":7000},
+         {"beamLimitSpring":5001000,"beamLimitDamp":250},
+         ["rw1r","rdiff", {"name":"halfshaft_RR", "breakGroup":"wheel_RR", "breakGroupType":1, "deformGroup":"wheelaxleRR", "deformationTriggerRatio":0.2, "optional":true}],
+         ["rw1l","rdiff", {"name":"halfshaft_RL", "breakGroup":"wheel_RL", "breakGroupType":1, "deformGroup":"wheelaxleRL", "deformationTriggerRatio":0.2, "optional":true}],
+         {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0,"boundZone":""},
+   ],
+    "powertrain" : [
+        ["type", "name", "inputName", "inputIndex"],
+        ["shaft", "wheelaxleRL", "differential_R", 1, {"deformGroups":["wheelaxleRL"], "breakTriggerBeam":"halfshaft_RL", "uiName":"Rear Left Halfshaft", "friction":1.65, "dynamicFriction":0.00407}],
+        ["shaft", "wheelaxleRR", "differential_R", 2, {"deformGroups":["wheelaxleRR"], "breakTriggerBeam":"halfshaft_RR", "uiName":"Rear Right Halfshaft", "friction":1.65, "dynamicFriction":0.00407}],
+    ],
+},
+"fr04_engine_ecu_electric_E_speedlimit_off": {
+    "information":{
+        "authors":"BeamNG",
+        "name":"Speed Limiter Delete",
+        "value":3500,
+    },
+    "slotType" : "fr04_engine_ecu_electric_E_speedlimit",
+
+    "vehicleController": {
+        "topSpeedLimit":-1,
+    },
+},
+}

@@ -1,0 +1,89 @@
+{
+"fr04_brake_F_abs": {
+    "information":{
+        "authors":"Elden",
+        "name":"Front Disc Brakes (ABS)",
+        "value":600,
+    },
+    "slotType" : "fr04_brake_F",
+    "slots": [
+        ["type", "default", "description"],
+        ["brakepad_F","brakepad_F_race", "Front Brake Pads", {"coreSlot":true}],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+        //brake discs
+        ["brake_hub_5l", ["wheel_FR","wheelhub_FR"], [], {"pos":{"x":-0.740, "y":-1.1709, "z":0.2765},              "scale":{"x":0.65,"y":0.95,"z":0.95}, "rot":{"x":0,"y":0,"z":0}}],
+        ["brake_hub_5l", ["wheel_FL","wheelhub_FL"], [], {"pos":{"x": 0.740, "y":-1.1709, "z":0.2765},              "scale":{"x":0.65,"y":0.95,"z":0.95}, "rot":{"x":0,"y":0,"z":180}}],
+        ["brake_disc_plain", ["wheel_FR","wheelhub_FR"], [], {"pos":{"x":-0.740, "y":-1.1709, "z":0.2765},          "scale":{"x":0.95,"y":0.95,"z":0.95}, "rot":{"x":0,"y":180,"z":0}}],
+        ["brake_disc_plain", ["wheel_FL","wheelhub_FL"], [], {"pos":{"x": 0.740, "y":-1.1709, "z":0.2765},          "scale":{"x":0.95,"y":0.95,"z":0.95}, "rot":{"x":180,"y":180,"z":0}}],
+        ["brake_caliper_4pot_plain", ["fr04_hub_F","wheelhub_FR"], [], {"pos":{"x":-0.740, "y":-1.155, "z":0.2765}, "scale":{"x":0.75,"y":0.75,"z":0.75}, "rot":{"x":-180,"y":0,"z":0}}],
+        ["brake_caliper_4pot_plain", ["fr04_hub_F","wheelhub_FL"], [], {"pos":{"x": 0.740, "y":-1.155, "z":0.2765}, "scale":{"x":0.75,"y":0.75,"z":0.75}, "rot":{"x":180,"y":180,"z":0}}],
+    ],
+    "pressureWheels": [
+        ["name","hubGroup","group","node1:","node2:","nodeS","nodeArm:","wheelDir"],
+        //brakes
+        {"brakeTorque":"$=$brakestrength*4000*$brakebias"},
+        {"brakeInputSplit":1},
+        {"brakeSplitCoef":1},
+        {"parkingTorque":0},
+        {"brakeSpring":150},
+
+        //brake thermals
+        {"enableBrakeThermals":true},
+        {"brakeDiameter":0.20},
+        {"brakeMass":9.0},
+        {"brakeType":"vented-disc"},
+        {"rotorMaterial":"steel"},
+        {"brakeVentingCoef":0.4},
+        {"absSlipRatioTarget":0.2},
+        {"enableABS":true},
+
+        //brake sounds
+        {"squealCoefNatural": 0.6, "squealCoefLowSpeed": 0.7}
+    ],
+},
+"fr04_brake_R_abs": {
+    "information":{
+        "authors":"Elden",
+        "name":"Rear Disc Brakes (ABS)",
+        "value":550,
+    },
+    "slotType" : "fr04_brake_R",
+    "slots": [
+        ["type", "default", "description"],
+        ["brakepad_R","brakepad_R_race", "Rear Brake Pads", {"coreSlot":true}],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+        //brake discs
+        ["brake_hub_5l", ["wheel_RR","wheelhub_RR"], [], {"pos":{"x":-0.71,"y":1.5625, "z":0.2743},               "scale":{"x":0.95,"y":0.95,"z":0.95}, "rot":{"x":0,"y":0,"z":0}}],
+        ["brake_hub_5l", ["wheel_RL","wheelhub_RL"], [], {"pos":{"x": 0.71,"y":1.5625, "z":0.2743},                "scale":{"x":0.95,"y":0.95,"z":0.95}, "rot":{"x":0,"y":0,"z":180}}],
+        ["brake_disc_plain", ["wheel_RR","wheelhub_RR"], [], {"pos":{"x":-0.71,"y":1.5625, "z":0.2743},         "scale":{"x":0.95,"y":0.95,"z":0.95}, "rot":{"x":0,"y":180,"z":0}}],
+        ["brake_disc_plain", ["wheel_RL","wheelhub_RL"], [], {"pos":{"x": 0.71,"y":1.5625, "z":0.2743},          "scale":{"x":0.95,"y":0.95,"z":0.95}, "rot":{"x":0,"y":180,"z":180}}],
+        ["brake_caliper_4pot_plain", ["fr04_hub_R","wheelhub_RR"], [], {"pos":{"x":-0.71,"y":1.580, "z":0.2743}, "scale":{"x":0.75,"y":0.75,"z":0.75}, "rot":{"x":180,"y":0,"z":0}}],
+        ["brake_caliper_4pot_plain", ["fr04_hub_R","wheelhub_RL"], [], {"pos":{"x": 0.71,"y":1.580, "z":0.2743},  "scale":{"x":0.75,"y":0.75,"z":0.75}, "rot":{"x":180,"y":180,"z":0}}],
+    ],
+    "pressureWheels": [
+        ["name","hubGroup","group","node1:","node2:","nodeS","nodeArm:","wheelDir"],
+        //brakes
+        {"brakeTorque":"$=$brakestrength*3800*(1-$brakebias)"},
+        {"brakeInputSplit":0.5},
+        {"brakeSplitCoef":0.5},
+        {"parkingTorque":1600},
+        {"brakeSpring":150},
+
+        //brake thermals
+        {"enableBrakeThermals":true},
+        {"brakeDiameter":0.20},
+        {"brakeMass":7.5},
+        {"brakeType":"vented-disc"},
+        {"rotorMaterial":"steel"},
+        {"brakeVentingCoef":0.3},
+        {"absSlipRatioTarget":0.14},
+        {"enableABS":true},
+        //brake sounds
+        {"squealCoefNatural": 0.6, "squealCoefLowSpeed": 0.7}
+    ],
+},
+}

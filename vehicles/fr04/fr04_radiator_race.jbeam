@@ -1,0 +1,299 @@
+{
+"fr04_radiator_i5": {
+    "information":{
+        "authors":"Elden",
+        "name":"Radiators inline 5",
+        "value":350,
+    },
+    "slotType" : "fr04_radiator",
+    "flexbodies": [
+         ["mesh", "[group]:", "nonFlexMaterials"],
+         ["fr04_radiator_R", ["fr04_radiator_R"]],
+         ["fr04_radiator_L", ["fr04_radiator_L"]],
+         ["fr04_radduct_R", ["fr04_radiator_R","fr04_radduct_R"]],
+         ["fr04_radduct_R_grille", ["fr04_radiator_R","fr04_radduct_R"]],
+         ["fr04_radduct_L", ["fr04_radiator_L","fr04_radduct_L"]],
+         ["fr04_radduct_L_grille", ["fr04_radiator_L","fr04_radduct_L"]],
+         ["fr04_headertank", ["fr04_body"]],
+         {"deformGroup":"radhose_M_damage", "deformMaterialBase":"fr04_engine", "deformMaterialDamaged":"invis"},
+         ["fr04_radhose_M", ["fr04_radiator_R","fr04_radiator_L","fr04_body"]],
+         {"deformGroup":"radhose_R_damage", "deformMaterialBase":"fr04_engine", "deformMaterialDamaged":"invis"},
+         ["fr04_radhose_R", ["fr04_radiator_R","fr04_engine"]],
+         {"deformGroup":"radhose_L_damage", "deformMaterialBase":"fr04_engine", "deformMaterialDamaged":"invis"},
+         ["fr04_radhose_L", ["fr04_radiator_L","fr04_engine"]],
+         {"deformGroup":""},
+    ],
+    "props": [
+        ["func"      , "mesh"              , "idRef:", "idX:", "idY:"            , "baseRotation"        , "rotation"                 , "translation"        , "min", "max", "offset", "multiplier"],
+        //["radiatorFanSpin"  , "fr04_radiator_fan_R", "rad1r","rad1l","fx1r",  {"x":9, "y":0, "z":180}, {"x":0, "y":0.25, "z":0}    , {"x":0, "y":0, "z":0}, -360, 360, 0, 1],
+        //["radiatorFanSpin"  , "fr04_radiator_fan_L", "rad1l","rad1r","fx1l",  {"x":9, "y":0, "z":0},   {"x":0, "y":0.25, "z":0}    , {"x":0, "y":0, "z":0}, -360, 360, 0, 1]
+    ],
+    "mainEngine":{
+        //beamng has no support for radiators without fans? what??
+        "radiatorArea":0.35, //m²
+        "radiatorEffectiveness":15000,
+        "coolantVolume":6,
+        "radiatorFanType":"electric", //has to be electric BECAUSE NO SUPPORT FOR RADIATORS WITHOUT FANS!!!!
+        "radiatorFanTemperature":49620,
+        "radiatorFanMaxAirSpeed":0.0,
+        "thermostatTemperature":90,
+        "radiatorFanLoopEvent": "event:>Vehicle>Cooling Fan>Electric_05",
+        "radiatorFanVolume": 0.0,
+
+        //damage deformGroups
+        "deformGroups_radiator":["radiator_damage", "radhose_R_damage", "radhose_M_damage", "radhose_R_damage", "radhose_L_damage"],
+    },
+    "nodes": [
+         ["id", "posX", "posY", "posZ"],
+         //radiators
+         {"frictionCoef":0.5},
+         {"nodeMaterial":"|NM_METAL"},
+         {"selfCollision":true},
+         {"collision":true},
+         {"engineGroup":"radiator"},
+         {"nodeWeight":2.5},
+         {"chemEnergy":200,"burnRate":0.4,"flashPoint":250,"specHeat":0.8,"smokePoint":150,"selfIgnitionCoef":false},
+
+         {"group":"fr04_radiator_R"},
+         ["rad1r",-0.62, 0.15, 0.08],
+         ["rad2r",-0.42, 0.56, 0.08],
+         ["rad3r",-0.62, 0.15, 0.41],
+         ["rad4r",-0.42, 0.56, 0.41],
+         ["rad5r",-0.55,-0.23, 0.35], //rigidifier and flexbody help
+
+         {"group":"fr04_radiator_L"},
+         ["rad1l", 0.62, 0.15, 0.08],
+         ["rad2l", 0.42, 0.56, 0.08],
+         ["rad3l", 0.62, 0.15, 0.41],
+         ["rad4l", 0.42, 0.56, 0.41],
+         ["rad5l", 0.55,-0.23, 0.35], //rigidifier and flexbody help
+         {"chemEnergy":false,"burnRate":false,"flashPoint":false,"specHeat":false,"smokePoint":false,"selfIgnitionCoef":false},
+
+         {"engineGroup":""},
+         {"group":""},
+    ],
+    "beams": [
+          ["id1:", "id2:"],
+          {"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+
+          //radiator main shape
+          {"beamSpring":401000,"beamDamp":30},
+          {"beamDeform":16500,"beamStrength":"FLT_MAX"},
+          {"deformGroup":"radiator_damage","deformationTriggerRatio":0.005},
+          {"deformLimitExpansion":1.1},
+          ["rad1r", "rad2r"],
+          ["rad1r", "rad3r"],
+          ["rad4r", "rad2r"],
+          ["rad4r", "rad3r"],
+
+          ["rad1l", "rad2l"],
+          ["rad1l", "rad3l"],
+          ["rad4l", "rad2l"],
+          ["rad4l", "rad3l"],
+
+          //crossing
+          {"beamDeform":5500,"beamStrength":"FLT_MAX"},
+          {"deformLimitExpansion":""},
+          ["rad1r","rad4r"],
+          ["rad2r","rad3r"],
+          ["rad1l","rad4l"],
+          ["rad2l","rad3l"],
+
+          //rigidifier
+          {"beamDeform":8500,"beamStrength":"FLT_MAX"},
+          ["rad5r","rad1r"],
+          ["rad5r","rad2r"],
+          ["rad5r","rad3r"],
+          ["rad5r","rad4r"],
+
+          ["rad5l","rad1l"],
+          ["rad5l","rad2l"],
+          ["rad5l","rad3l"],
+          ["rad5l","rad4l"],
+
+
+          //attach
+          {"beamSpring":301000,"beamDamp":10},
+          {"beamDeform":4500,"beamStrength":20100},
+          {"deformGroup":"radiator_damage","deformationTriggerRatio":0.1},
+          {"breakGroup":"radiator_RR"},
+          ["rad4r","rt2r"],
+          ["rad4r","rt2l"],
+          ["rad4r","rt1r"],
+          ["rad4r","rt1l"],
+          ["rad4r","rt4r"],
+          ["rad4r","rt4l"],
+          ["rad2r","rt2r"],
+          ["rad2r","rt2l"],
+          ["rad2r","rt1r"],
+          ["rad2r","rt1l"],
+          ["rad2r","rt4r"],
+          ["rad2r","rt4l"],
+
+          {"breakGroup":"radiator_RL"},
+          ["rad4l","rt2r"],
+          ["rad4l","rt2l"],
+          ["rad4l","rt1r"],
+          ["rad4l","rt1l"],
+          ["rad4l","rt4r"],
+          ["rad4l","rt4l"],
+          ["rad2l","rt2r"],
+          ["rad2l","rt2l"],
+          ["rad2l","rt1r"],
+          ["rad2l","rt1l"],
+          ["rad2l","rt4r"],
+          ["rad2l","rt4l"],
+          
+          {"breakGroup":"radiator_FR"},
+          {"beamDeform":4500,"beamStrength":20100},
+          ["rad3r","rt2r"],
+          ["rad3r","rt1r"],
+          ["rad3r","rt4r"],
+          ["rad3r","rt3r"],
+          ["rad3r","mt1r"],
+          ["rad3r","mt2r"],
+          {"beamDeform":8500,"beamStrength":18000},
+          ["rad5r","rt4r"],
+          ["rad5r","rt3r"],
+          ["rad5r","mt1r"],
+          ["rad5r","mt2r"],
+
+          {"breakGroup":"radiator_FL"},
+          {"beamDeform":4500,"beamStrength":118000},
+          ["rad3l","rt2l"],
+          ["rad3l","rt1l"],
+          ["rad3l","rt4l"],
+          ["rad3l","rt3l"],
+          ["rad3l","mt1l"],
+          ["rad3l","mt2l"],
+          {"beamDeform":8500,"beamStrength":18000},
+          ["rad5l","rt4l"],
+          ["rad5l","rt3l"],
+          ["rad5l","mt1l"],
+          ["rad5l","mt2l"],
+
+          //radhose
+          {"beamSpring":50000,"beamDamp":20},
+          {"beamDeform":1450,"beamStrength":12600},
+          {"deformGroup":"radhose_M_damage","deformationTriggerRatio":0.01},
+          {"breakGroup":"radhose_M"},
+          ["rad2r", "rad2l"],
+          ["rad2r", "rt1r"],
+          ["rad2l", "rt1l"],
+
+          {"deformGroup":"radhose_R_damage","deformationTriggerRatio":0.01},
+          {"breakGroup":"radhose_R"},
+          ["rad4r", "e1r"],
+          ["rad4r", "e2r"],
+          ["rad4r", "e3r"],
+
+          {"deformGroup":"radhose_L_damage","deformationTriggerRatio":0.01},
+          {"breakGroup":"radhose_L"},
+          ["rad4l", "e1l"],
+          ["rad4l", "e2l"],
+          ["rad4l", "e3l"],
+
+          {"deformGroup":""},
+          {"breakGroup":""},
+
+          //damping
+          {"beamDeform":"FLT_MAX","beamStrength":3000},
+          {"beamSpring":10000,"beamDamp":1500},
+          ["rad1r","rt3r"],
+          ["rad2r","rt1r"],
+          ["rad3r","rt2r"],
+          ["rad4r","mt1r"],
+          ["rad5r","mt1"],
+          
+          ["rad1l","rt3l"],
+          ["rad2l","rt1l"],
+          ["rad3l","rt2l"],
+          ["rad4l","mt1l"],
+          ["rad5l","mt1"],
+
+
+          //support beams
+          {"beamType":"|SUPPORT","beamLongBound":10},
+          {"beamSpring":101000,"beamDamp":5},
+          {"beamDeform":8080,"beamStrength":178000},
+          {"optional":false},
+          ["rad1r", "fl2rr"],
+          ["rad3r", "fl2rr"],
+          ["rad1r", "fl3rr"],
+          ["rad3r", "fl3rr"],
+          
+          ["rad2r", "fl3r"],
+          ["rad4r", "fl3r"],
+          ["rad2r", "fl3"],
+          ["rad4r", "fl3"],
+          
+          ["rad1l", "fl2ll"],
+          ["rad3l", "fl2ll"],
+          ["rad1l", "fl3ll"],
+          ["rad3l", "fl3ll"],
+          
+          ["rad2l", "fl3l"],
+          ["rad4l", "fl3l"],
+          ["rad2l", "fl3"],
+          ["rad4l", "fl3"],
+          
+          {"optional":false},
+
+          {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+          {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+    ],
+
+    "triangles": [
+         ["id1:","id2:","id3:"],
+         {"triangleType":"NORMALTYPE"},
+
+         //radiator shape
+         {"dragCoef":5},
+         {"groundModel":"metal"},
+         {"group":"fr04_radiator_R"},
+         ["rad3r","rad4r","rad2r"],
+         ["rad3r","rad2r","rad1r"],
+         ["rad5r","rad3r","rad1r"],
+
+         {"group":"fr04_radiator_L"},
+         ["rad4l","rad3l","rad2l"],
+         ["rad2l","rad3l","rad1l"],
+         ["rad5l","rad1l","rad3l"],
+
+         //radiator to monocoque
+         {"dragCoef":2},
+         {"groundModel":"plastic"},
+         {"optional":true},
+         {"triangleType":"NONCOLLIDABLE"},
+         {"group":"radiator_monocoque"},
+         ["mt2r","rad5r","mt1r"],
+         ["mt2r","rt4r","rad5r"],
+         ["rt4r","rad3r","rad5r"],
+         ["rt4r","rt2r","rad4r"],
+         ["rt4r","rad4r","rad3r"],
+         ["rad4r","rt2r","rt1r"],
+         ["rad4r","rt1r","rad2r"],
+         ["mt1r","rad5r","rt3r"],
+         ["rad5r","rad1r","rt3r"],
+         ["rt1r","rt3r","rad1r"],
+         ["rt1r","rad1r","rad2r"],
+         
+         ["rad5l","mt2l","mt1l" ],
+         ["rt4l","mt2l","rad5l"],
+         ["rad3l","rt4l","rad5l"],
+         ["rt2l","rt4l","rad4l"],
+         ["rad4l","rt4l","rad3l"],
+         ["rt2l","rad4l","rt1l" ],
+         ["rt1l","rad4l","rad2l"],
+         ["rad5l","mt1l","rt3l" ],
+         ["rad1l","rad5l","rt3l" ],
+         ["rt3l","rt1l","rad1l"],
+         ["rad1l","rt1l","rad2l"],
+
+         
+         {"group":""},
+         {"triangleType":"NORMALTYPE"},
+         {"optional":false}
+    ],
+},
+}

@@ -1,0 +1,329 @@
+{
+    "fr04_DSE_drivemodes_ICE": {
+        "information":{
+            "authors":"Diamondback",
+            "name":"Drive Modes",
+            "value":250,
+        },
+        "slotType" : "fr04_DSE_drivemodes",
+        "slots":[
+            ["type", "default", "description"],
+            ["fr04_DSE_drivemodes_default","fr04_DSE_drivemodes_default_comfort", "Default Mode"],
+            ["fr04_DSE_drivemodes_sport","", "Sport Mode"],
+            ["fr04_DSE_drivemodes_drift","", "Drift Mode"],
+            ["fr04_DSE_drivemodes_limited","", "Caged Mode"],
+            ["fr04_DSE_drivemodes_savage","", "Savage Mode"],
+        ]
+
+        "controller": [
+            ["fileName"],
+            ["driveModes"]
+        ],
+
+        "driveModes": {
+            "enabledModes":["comfort", "sport", "off"]
+            "defaultMode": "comfort"
+            "defaultSettings": [
+                ["type"]
+                ["transmission", {"defaultForwardMode": "D"}]
+                ["supercharger", {"name": "mainEngine", "bypassPressure": 14}]
+
+                ["controller", {"controllerName":"electronicSplitShaftLock", "isEnabled":true, "minimumLock":"default"}]
+
+                ["controller", {"controllerName":"tractionControl", "isEnabled":true}]
+                ["controller", {"controllerName":"yawControl", "isEnabled":true}]
+                ["controller", {"controllerName":"motorTorqueControl", "tractionControl": "default", "yawControl": "default"}]
+                ["controller", {"controllerName":"brakeControl", "tractionControl": "default", "yawControl": "default"}]
+
+                ["controller", {"controllerName":"twoStepLaunch", "isEnabled":false, "launchRPM":1800}]
+            ],
+            "modes": {
+                "comfort": {
+                    "name": "Comfort",
+                    "order": 10,
+                    "settings": [
+                        ["type"]
+                        ["controller", {"controllerName":"gauge", "modeName": "COMFORT", "modeColor": "#1E7CCC"}]
+                        ["simpleControlButton", {"buttonId":"dse", "uiName":"DSE","icon":"powertrain_esc","color":"238BE6", "offColor":"343434", "offColorElectric":"dseWarningPulse"}]
+                    ],
+                },
+                "sport": {
+                    "name": "Sport",
+                    "order": 20,
+                    "settings": [
+                        ["type"]
+                        ["transmission", {"defaultForwardMode": "S"}],
+
+                        ["controller", {"controllerName":"electronicSplitShaftLock", "isEnabled":true, "minimumLock":0.25}]
+
+                        ["controller", {"controllerName":"motorTorqueControl",
+                            "tractionControl.isEnabled":true,
+                            "tractionControl.wheelGroupSettings.mainEngine.slipThreshold": 0.3,
+                            "yawControl.isEnabled":true,
+                            "yawControl.slipAngleThreshold": 0.2,
+                            "yawControl.yawAvThreshold": 0.5
+                        }]
+                        ["controller", {"controllerName":"brakeControl",
+                            "tractionControl.isEnabled":false,
+                            "yawControl.isEnabled":true,
+                            "yawControl.slipAngleThreshold": 0.07,
+                            "yawControl.yawAvThreshold": 0.6
+                        }]
+
+                        ["controller", {"controllerName":"tractionControl"}] //Add dummy, otherwise defaults will apply and reactivate things
+                        ["controller", {"controllerName":"yawControl"}] //Add dummy, otherwise defaults will apply and reactivate things
+
+                        ["controller", {"controllerName":"twoStepLaunch", "isEnabled":true, "launchRPM":1800}]
+
+                        ["controller", {"controllerName":"gauge", "modeName": "SPORT", "modeColor": "#FFC300"}]
+                        ["simpleControlButton", {"buttonId":"dse", "uiName":"DSE","icon":"powertrain_esc","color":"FFC300", "offColor":"343434", "offColorElectric":"dseWarningPulse"}]
+                    ],
+                },
+                "drift": {
+                    "name": "Drift",
+                    "order": 40,
+                    "settings": [
+                        ["type"]
+                        ["transmission", {"defaultForwardMode": "M1"}],
+
+                        ["controller", {"controllerName":"electronicSplitShaftLock", "isEnabled":false}]
+
+                        ["controller", {"controllerName":"tractionControl", "isEnabled":false}]
+                        ["controller", {"controllerName":"yawControl", "isEnabled":false}]
+                        ["controller", {"controllerName":"motorTorqueControl"}] //Add dummy, otherwise defaults will apply and reactivate things
+                        ["controller", {"controllerName":"brakeControl"}] //Add dummy, otherwise defaults will apply and reactivate things
+
+                        ["controller", {"controllerName":"gauge", "modeName": "DRIFT", "modeColor": "#598500"}]
+                        ["simpleControlButton", {"buttonId":"dse", "uiName":"DSE","icon":"powertrain_esc","color":"598500", "offColor":"343434", "offColorElectric":"dseWarningPulse"}]
+                    ],
+                },
+
+                "savage": {
+                    "name": "Savage",
+                    "order": 50,
+                    "settings": [
+                        ["type"]
+                        ["transmission", {"defaultForwardMode": "S"}],
+
+                        ["controller", {"controllerName":"electronicSplitShaftLock", "isEnabled":true, "minimumLock":0.25}]
+
+                        ["controller", {"controllerName":"motorTorqueControl",
+                            "tractionControl.isEnabled":false,
+                            "yawControl.isEnabled":false,
+                        }]
+                        ["controller", {"controllerName":"brakeControl",
+                            "tractionControl.isEnabled":false,
+                            "yawControl.isEnabled":true,
+                            "yawControl.slipAngleThreshold": 0.15,
+                            "yawControl.yawAvThreshold": 0.6
+                        }]
+
+                        ["controller", {"controllerName":"twoStepLaunch", "isEnabled":true, "launchRPM":1800}]
+
+                        ["controller", {"controllerName":"gauge", "modeName": "SAVAGE", "modeColor": "#DD1C1A"}]
+                        ["simpleControlButton", {"buttonId":"dse", "uiName":"DSE","icon":"powertrain_esc","color":"DD1C1A", "offColor":"343434", "offColorElectric":"dseWarningPulse"}]
+                    ],
+                },
+                "off": {
+                    "name": "ESC & TC Off",
+                    "order": 60,
+                    "settings": [
+                        ["type"]
+                        ["transmission", {"defaultForwardMode": "S"}],
+                        ["supercharger", {"name": "mainEngine", "bypassPressure": 9999}]
+                        ["controller", {"controllerName":"electronicSplitShaftLock", "isEnabled":true, "minimumLock":0.25}]
+
+                        ["controller", {"controllerName":"tractionControl", "isEnabled":false}]
+                        ["controller", {"controllerName":"yawControl", "isEnabled":false}]
+                        ["controller", {"controllerName":"motorTorqueControl"}] //Add dummy, otherwise defaults will apply and reactivate things
+                        ["controller", {"controllerName":"brakeControl"}] //Add dummy, otherwise defaults will apply and reactivate things
+
+                        ["controller", {"controllerName":"gauge", "modeName": "OFF", "modeColor": "#999999"}]
+                        ["simpleControlButton", {"buttonId":"dse", "uiName":"DSE","icon":"powertrain_esc","color":"999999", "offColor":"343434", "offColorElectric":"dseWarningPulse"}]
+
+                    ],
+                },
+                "limited": {
+                    "name": "Caged",
+                    "order": 70,
+                    "settings": [
+                        ["type"]
+                        ["supercharger", {"name": "mainEngine", "bypassPressure": 0}]
+                        ["exhaust", {"name": "mainEngine", "mufflingOffset": 0.2, "gainOffset": -2}],
+                        ["controller", {"controllerName":"gauge", "modeName": "CAGED", "modeColor": "#9D4EDD"}]
+                        ["simpleControlButton", {"buttonId":"dse", "uiName":"DSE","icon":"powertrain_esc","color":"9D4EDD", "offColor":"343434", "offColorElectric":"dseWarningPulse"}]
+
+                    ],
+                },
+            },
+        },
+    },
+    "fr04_DSE_drivemodes_electricMotor": {
+        "information":{
+            "authors":"Diamondback",
+            "name":"Drive Modes (eMotor)",
+            "value":250,
+        },
+        "slotType" : "fr04_DSE_drivemodes",
+
+        "controller": [
+            ["fileName"],
+            ["driveModes"]
+        ],
+
+        "driveModes": {
+            "enabledModes":["comfort", "sport", "off"]
+            "defaultMode": "comfort"
+            "defaultSettings": [
+                ["type"]
+                ["controller", {"controllerName":"tractionControl", "isEnabled":true}]
+                ["controller", {"controllerName":"yawControl", "isEnabled":true}]
+                ["controller", {"controllerName":"motorTorqueControl", "tractionControl": "default", "yawControl": "default"}]
+                ["controller", {"controllerName":"brakeControl", "tractionControl": "default", "yawControl": "default"}]
+            ],
+            "modes": {
+                "comfort": {
+                    "name": "Comfort",
+                    "order": 10,
+                    "settings": [
+                        ["type"]
+                        ["controller", {"controllerName":"gauge", "modeName": "COMFORT", "modeColor": "#1e7ccc"}]
+                        ["simpleControlButton", {"buttonId":"dse", "uiName":"DSE","icon":"powertrain_esc","color":"238BE6", "offColor":"343434", "offColorElectric":"dseWarningPulse"}]
+                    ],
+                },
+                "sport": {
+                    "name": "Sport",
+                    "order": 20,
+                    "settings": [
+                        ["type"]
+
+                        ["controller", {"controllerName":"motorTorqueControl",
+                            "tractionControl.isEnabled":true,
+                            "tractionControl.wheelGroupSettings.frontMotor.slipThreshold": 0.3,
+                            "tractionControl.wheelGroupSettings.rearMotor.slipThreshold": 0.3,
+                             "yawControl.isEnabled":true,
+                        }]
+                        ["controller", {"controllerName":"brakeControl",
+                            "tractionControl.isEnabled":true,
+                            "tractionControl.wheelGroupSettings.frontMotor.slipThreshold": 0.2,
+                            "tractionControl.wheelGroupSettings.rearMotor.slipThreshold": 0.2,
+                            "yawControl.isEnabled":true,
+                            "yawControl.slipAngleThreshold": 0.2,
+                            "yawControl.yawAvThreshold": 0.6
+                        }]
+
+                        ["controller", {"controllerName":"gauge", "modeName": "SPORT", "modeColor": "#8F0101"}]
+                        ["simpleControlButton", {"buttonId":"dse", "uiName":"DSE","icon":"powertrain_esc","color":"DA0C0C", "offColor":"343434", "offColorElectric":"dseWarningPulse"}]
+                    ],
+                },
+
+                "off": {
+                    "name": "ESC & TC Off",
+                    "order": 50,
+                    "settings": [
+                        ["type"]
+
+                        ["controller", {"controllerName":"tractionControl", "isEnabled":false}]
+                        ["controller", {"controllerName":"yawControl", "isEnabled":false}]
+                        ["controller", {"controllerName":"motorTorqueControl"}]
+                        ["controller", {"controllerName":"brakeControl"}]
+
+                        ["controller", {"controllerName":"gauge", "modeName": "ESC OFF", "modeColor": "#343838"}]
+                        ["simpleControlButton", {"buttonId":"dse", "uiName":"DSE","icon":"powertrain_esc","color":"545454", "offColor":"343434", "offColorElectric":"dseWarningPulse"}]
+                    ],
+                }
+            },
+        },
+    },
+
+    "fr04_DSE_drivemodes_drift": {
+        "information":{
+            "authors":"Diamondback",
+            "name":"Drift Mode",
+            "value":500,
+        },
+        "slotType" : "fr04_DSE_drivemodes_drift",
+
+        "driveModes": {
+            "enabledModes_drift":["drift"]
+        }
+    },
+
+    "fr04_DSE_drivemodes_limited": {
+        "information":{
+            "authors":"Diamondback",
+            "name":"Caged Mode",
+            "value":500,
+        },
+        "slotType" : "fr04_DSE_drivemodes_limited",
+
+        "driveModes": {
+            "enabledModes_limited":["limited"]
+        }
+    },
+
+    "fr04_DSE_drivemodes_savage": {
+        "information":{
+            "authors":"Diamondback",
+            "name":"Savage Mode",
+            "value":500,
+        },
+        "slotType" : "fr04_DSE_drivemodes_savage",
+
+        "driveModes": {
+            "enabledModes_savage":["savage"]
+        }
+    },
+
+    "fr04_DSE_drivemodes_default_comfort": {
+        "information":{
+            "authors":"Diamondback",
+            "name":"Comfort Mode",
+            "value":500,
+        },
+        "slotType" : "fr04_DSE_drivemodes_default",
+
+        "driveModes": {
+            "defaultMode":"comfort"
+        }
+    },
+
+    "fr04_DSE_drivemodes_default_sport": {
+        "information":{
+            "authors":"Diamondback",
+            "name":"Sport Mode",
+            "value":500,
+        },
+        "slotType" : "fr04_DSE_drivemodes_default",
+
+        "driveModes": {
+            "defaultMode":"sport"
+        }
+    },
+
+    "fr04_DSE_drivemodes_default_savage": {
+        "information":{
+            "authors":"Diamondback",
+            "name":"Savage Mode",
+            "value":500,
+        },
+        "slotType" : "fr04_DSE_drivemodes_default",
+
+        "driveModes": {
+            "defaultMode":"savage"
+        }
+    },
+
+    "fr04_DSE_drivemodes_default_off": {
+        "information":{
+            "authors":"Diamondback",
+            "name":"ESC & TC Off Mode",
+            "value":500,
+        },
+        "slotType" : "fr04_DSE_drivemodes_default",
+
+        "driveModes": {
+            "defaultMode":"off"
+        }
+    },
+}

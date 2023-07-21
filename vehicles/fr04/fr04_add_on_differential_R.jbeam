@@ -13,7 +13,7 @@
         ],
         "powertrain" : [
             ["type", "name", "inputName", "inputIndex"],
-            ["differential", "differential_R", "gearbox", 1, {"diffType":"open", "uiName":"Rear Differential","defaultVirtualInertia":0.25}],
+            ["differential", "differential_R", "transfercase", 1, {"diffType":"open", "uiName":"Rear Differential","defaultVirtualInertia":0.25}],
         ],
         "differential_R": {
             "friction": 4.13,
